@@ -18,19 +18,24 @@ class GUI:
         self.window = tkinter.Tk()
         self.window.title(title)
         self.window.minsize(width=size[0], height=size[1])
+        self.menu_list=[]
         
-        menu_bar=self.generate_menu_bar()
+        
         
         #self.window.bind_all('<Control-Key-w>', do_nothing)
-        self.window.config(menu=menu_bar)
+    def build_gui(self):
+        print(self.menu_bar)
+        self.window.config(menu=self.menu_bar)
         self.window.mainloop()
 
-    def generate_menu_bar(self,label="Menu"):
-        menu_bar = tkinter.Menu(self.window)
-        menu1=self.add_list_of_commands(menu_bar,["choice #1","choice #2","","choice #3"],[self.do_nothing,self.do_nothing,self.do_nothing,self.do_nothing])
-        menu_bar.add_cascade(label=label, menu=menu1)
-        return(menu_bar)
-        
+    def add_menu(self,label,list_of_labels,list_of_commands):
+        self.menu_list.append([label,list_of_labels,list_of_commands])
+        if len(self.menu_list)==1:  
+            self.menu_bar = tkinter.Menu(self.window)
+        menu1=self.add_list_of_commands(self.menu_bar,list_of_labels,list_of_commands)
+        self.menu_bar.add_cascade(label=label, menu=menu1)
+
+            
         
     def add_list_of_commands(self,menu_bar,list_of_labels,list_of_commands):
         menu = tkinter.Menu(menu_bar, tearoff=0)
@@ -42,14 +47,20 @@ class GUI:
                 #menu.add_command(label="Do nothing #1", command=do_nothing, accelerator='ctrl+w')
                 menu.add_command(label=list_of_labels[i],command=list_of_commands[i]) 
         return(menu)
-     
-    def do_nothing(self):
-       filewin = tkinter.Toplevel(self.window)
-       button = tkinter.Button(filewin, text="Do nothing button")
-       button.grid(row=1,column=1)
+    
+
+    
+    
+################### SPECIAL FUNCTIONS ######################
+    
+def do_nothing():
+    pass
+
+def do_nothing_window():
+   filewin = tkinter.Toplevel(self.window)
+   button = tkinter.Button(filewin, text="Do nothing button")
+   button.grid(row=1,column=1)
+    
         
-        
-gui1=GUI()     
-        
-        
-        
+      
+       
