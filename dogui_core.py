@@ -24,8 +24,8 @@ class GUI:
         
         #self.window.bind_all('<Control-Key-w>', do_nothing)
     def build_gui(self):
-        print(self.menu_bar)
-        self.window.config(menu=self.menu_bar)
+        if len(self.menu_list)>0:    
+            self.window.config(menu=self.menu_bar)
         self.window.mainloop()
 
     def add_menu(self,label,list_of_labels,list_of_commands):
