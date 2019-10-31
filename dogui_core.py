@@ -2,16 +2,25 @@ import tkinter
 import tkinter.ttk
 
 class Combobox():
-    def __init__(self, window, inputlist, rowindex, columnindex):
-        self.cb=tkinter.ttk.Combobox(window,values=inputlist, width=50)
+    def __init__(self, window, inputlist, row_index, column_index,width=10):
+        self.cb=tkinter.ttk.Combobox(window,values=inputlist, width=width)
         self.cb.set(inputlist[0])
-        self.cb.grid(row=rowindex,column=columnindex, padx=4, pady=4)
+        self.cb.grid(row=row_index,column=column_index, padx=4, pady=4)
 
 class Button():
-    def __init__(self, window, textinput, function ,rowindex, columnindex):
-        self.b = tkinter.Button(window, text =textinput, command = lambda:function())
-        self.b.grid(row=rowindex,column=columnindex)        
+    def __init__(self, window, text_input, function ,row_index, column_index):
+        self.b = tkinter.Button(window, text =text_input, command = lambda:function())
+        self.b.grid(row=row_index,column=column_index)        
 
+class Label():
+    def __init__(self, window,text_input,row_index,column_index):
+        self.label=tkinter.Label(window, text=text_input)
+        self.label.grid(row=row_index,column=column_index)
+
+class Entry():
+    def __init__(self, window,row_index,column_index,width=10):
+        self.entry=tkinter.Entry(window,width=width)
+        self.entry.grid(row=row_index,column=column_index)
 
 class GUI:
     def __init__(self,title="GUI",size=[600,400]):
