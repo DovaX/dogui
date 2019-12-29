@@ -14,8 +14,11 @@ class Button():
 
 class Label():
     def __init__(self, window,text_input,row_index,column_index):
-        self.label=tkinter.Label(window, text=text_input)
+        self.text=tkinter.StringVar()
+        self.text.set(text_input)
+        self.label=tkinter.Label(window, textvariable=self.text)
         self.label.grid(row=row_index,column=column_index)
+
 
 class Entry():
     def __init__(self, window,row_index,column_index,width=10):
