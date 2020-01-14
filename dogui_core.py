@@ -1,5 +1,7 @@
 import tkinter
 import tkinter.ttk
+from PIL import Image, ImageTk
+
 
 class Combobox():
     def __init__(self, window, inputlist, row_index, column_index,width=10):
@@ -19,6 +21,35 @@ class Label():
         self.label=tkinter.Label(window, textvariable=self.text)
         self.label.grid(row=row_index,column=column_index)
 
+class PictureBox():
+    def __init__(self,window,image_path,row_index,column_index):
+        self.window=window
+        self.row_index=row_index
+        self.column_index=column_index
+        image = Image.open(image_path)
+        image=self.rescale_picture(image)
+        render = ImageTk.PhotoImage(image)
+        self.img = tkinter.Label(window, image=render)
+        self.img.image = render
+        self.img.grid(row=row_index,column=column_index)
+        #self.img.place(x=50, y=0)
+        
+    def rescale_picture(self,image):
+        imageSizeWidth, imageSizeHeight = image.size
+        rescale_factor = 300/imageSizeWidth
+        image_width = int(imageSizeWidth*rescale_factor) 
+        image_height = int(imageSizeHeight*rescale_factor)
+        image = image.resize((image_width, image_height), Image.ANTIALIAS)
+        return(image)
+
+    def load_picture(self,image_path):
+        image = Image.open(image_path)
+        image=self.rescale_picture(image)
+        render = ImageTk.PhotoImage(image)
+        self.img = tkinter.Label(self.window, image=render)
+        self.img.image = render
+        self.img.grid(row=self.row_index,column=self.column_index)
+        
 
 class Entry():
     def __init__(self, window,row_index,column_index,width=10):
