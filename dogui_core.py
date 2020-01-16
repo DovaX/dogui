@@ -2,7 +2,6 @@ import tkinter
 import tkinter.ttk
 from PIL import Image, ImageTk
 
-
 class Combobox():
     def __init__(self, window, inputlist, row_index, column_index,width=10):
         self.cb=tkinter.ttk.Combobox(window,values=inputlist, width=width)
@@ -44,13 +43,12 @@ class PictureBox():
 
     def load_picture(self,image_path):
         image = Image.open(image_path)
-        image=self.rescale_picture(image)
+        #image=self.rescale_picture(image)
         render = ImageTk.PhotoImage(image)
         self.img = tkinter.Label(self.window, image=render)
         self.img.image = render
         self.img.grid(row=self.row_index,column=self.column_index)
         
-
 class Entry():
     def __init__(self, window,row_index,column_index,width=10):
         self.entry=tkinter.Entry(window,width=width)
@@ -62,8 +60,6 @@ class GUI:
         self.window.title(title)
         self.window.minsize(width=size[0], height=size[1])
         self.menu_list=[]
-        
-        
         
         #self.window.bind_all('<Control-Key-w>', do_nothing)
     def build_gui(self):
@@ -78,8 +74,6 @@ class GUI:
         menu1=self.add_list_of_commands(self.menu_bar,list_of_labels,list_of_commands)
         self.menu_bar.add_cascade(label=label, menu=menu1)
 
-            
-        
     def add_list_of_commands(self,menu_bar,list_of_labels,list_of_commands):
         menu = tkinter.Menu(menu_bar, tearoff=0)
         for i,label in enumerate(list_of_labels):
@@ -90,10 +84,7 @@ class GUI:
                 #menu.add_command(label="Do nothing #1", command=do_nothing, accelerator='ctrl+w')
                 menu.add_command(label=list_of_labels[i],command=list_of_commands[i]) 
         return(menu)
-    
-
-    
-    
+        
 ################### SPECIAL FUNCTIONS ######################
     
 def do_nothing():
@@ -104,6 +95,3 @@ def do_nothing_window():
    button = tkinter.Button(filewin, text="Do nothing button")
    button.grid(row=1,column=1)
     
-        
-      
-       
