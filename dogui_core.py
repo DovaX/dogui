@@ -14,10 +14,14 @@ class Button():
         self.b.grid(row=row_index,column=column_index)        
 
 class Label():
-    def __init__(self, window,text_input,row_index,column_index):
+    def __init__(self, window,text_input,row_index,column_index,width=None):
         self.text=tkinter.StringVar()
         self.text.set(text_input)
-        self.label=tkinter.Label(window, textvariable=self.text)
+        if width is None:
+            self.label=tkinter.Label(window, textvariable=self.text,justify=tkinter.LEFT)
+        else:
+            self.label=tkinter.Label(window, textvariable=self.text,justify=tkinter.LEFT,width=width)
+        
         self.label.grid(row=row_index,column=column_index)
 
 class PictureBox():
