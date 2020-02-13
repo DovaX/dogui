@@ -24,6 +24,14 @@ class Label():
         
         self.label.grid(row=row_index,column=column_index)
 
+class Entry():
+    def __init__(self, window,row_index,column_index,text_input="",width=10):
+        self.text=tkinter.StringVar()
+        self.text.set(text_input)
+        self.entry=tkinter.Entry(window,textvariable=self.text,width=width)
+        self.entry.grid(row=row_index,column=column_index)
+
+
 class PictureBox():
     def __init__(self,window,image_path,row_index,column_index):
         self.window=window
@@ -53,10 +61,6 @@ class PictureBox():
         self.img.image = render
         self.img.grid(row=self.row_index,column=self.column_index)
         
-class Entry():
-    def __init__(self, window,row_index,column_index,width=10):
-        self.entry=tkinter.Entry(window,width=width)
-        self.entry.grid(row=row_index,column=column_index)
 
 class GUI:
     def __init__(self,title="GUI",size=[600,400]):
@@ -64,6 +68,7 @@ class GUI:
         self.window.title(title)
         self.window.minsize(width=size[0], height=size[1])
         self.menu_list=[]
+        #self.window.configure(background='white')
         
         #self.window.bind_all('<Control-Key-w>', do_nothing)
     def build_gui(self):
