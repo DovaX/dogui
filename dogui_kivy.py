@@ -19,8 +19,6 @@ class GUI(App):
         self.layout_list=None
         self.heights=[1]*self.no_rows #list of relative heights of rows
         self.widths=[1]*self.no_cols #list of relative widths of columns
-
-    #    self.build()
         
     def build(self):
         self.page=Page(self,self.no_rows,self.no_cols)
@@ -45,34 +43,28 @@ class Page(GridLayout):
             for j in range(1,cols+1):
                 chosen_item=None
                 for item in app.layout_list:
-                    #print(item.row_index,item.column_index)
                     if item.row_index==i and item.column_index==j:
                         chosen_item=item
            
                 if chosen_item is not None:
                     if isinstance(chosen_item,Label):
-                        
-                        self.add_widget(Lbl(text=chosen_item.text.get(),width=app.widths[j-1]/sum(app.widths)*Window.size[0],height=app.heights[i-1]/sum(app.heights)*Window.size[1],size_hint_x=None,size_hint_y=None))
+                        kivy_widget=Lbl(text=chosen_item.text.get(),width=app.widths[j-1]/sum(app.widths)*Window.size[0],height=app.heights[i-1]/sum(app.heights)*Window.size[1],size_hint_x=None,size_hint_y=None)
+                        chosen_item.kivy_widget=kivy_widget
+                        self.add_widget(kivy_widget)
                     if isinstance(chosen_item,Entry):
-                        print(Window.size[0])
-                        print(Window.size[1])
-                        print(i,j)
-                        text_widget=TextInput(text=chosen_item.text.get(),multiline=False,width=app.widths[j-1]/sum(app.widths)*Window.size[0],height=app.heights[i-1]/sum(app.heights)*Window.size[1],size_hint_x=None,size_hint_y=None)
-                        chosen_item.text_widget=text_widget
-                        self.add_widget(text_widget)
+                        kivy_widget=TextInput(text=chosen_item.text.get(),multiline=False,width=app.widths[j-1]/sum(app.widths)*Window.size[0],height=app.heights[i-1]/sum(app.heights)*Window.size[1],size_hint_x=None,size_hint_y=None)
+                        chosen_item.kivy_widget=kivy_widget
+                        self.add_widget(kivy_widget)
                     if isinstance(chosen_item,Button):
                         btn=Btn(text=chosen_item.text_input,width=app.widths[j-1]/sum(app.widths)*Window.size[0],height=app.heights[i-1]/sum(app.heights)*Window.size[1],size_hint_x=None,size_hint_y=None)
                         
                         chosen_item.btn=btn
                         self.buttons.append(chosen_item)
                         index=self.buttons.index(chosen_item)
-                        print(index)
                         chosen_item.btn.bind(on_press=self.click_button)
                         
-                        print("BUTTONS:",self.buttons)
                         self.add_widget(btn)
                     if isinstance(chosen_item,PictureBox):
-                        print(chosen_item.image_path)
                         chosen_item.kivy_image=Image(source=chosen_item.image_path,width=app.widths[j-1]/sum(app.widths)*Window.size[0],height=app.heights[i-1]/sum(app.heights)*Window.size[1],size_hint_x=None,size_hint_y=None)
                         self.add_widget(chosen_item.kivy_image)
                 else:          
@@ -82,9 +74,6 @@ class Page(GridLayout):
         button_widgets=[x.btn for x in self.buttons]
         index=button_widgets.index(instance)
         button=self.buttons[index]
-        #print(instance)
-        print("BUTTON CLICKED",str(button))
-        #print(btn.__dict__.items())
         button.function()
 
 class Label:
@@ -92,7 +81,8 @@ class Label:
         self.row_index=row_index
         self.column_index = column_index
         self.text_input=text_input
-        self.text=Text(text_input)
+        self.kivy_widget=None
+        self.text=Text(text_input,widget=self)
         
         
 class Entry:
@@ -100,7 +90,7 @@ class Entry:
         self.row_index=row_index
         self.column_index = column_index
         self.text=Text(text_input,widget=self)
-        self.text_widget=None
+        self.kivy_widget=None
         
 class Text:
     def __init__(self,text,widget=None):
@@ -112,7 +102,11 @@ class Text:
             self.text=new_text
         elif isinstance(self.widget,Entry): #Handling Entry for text.set("") option
             self.text=new_text
-            self.widget.text_widget.text=new_text
+            self.widget.kivy_widget.text=new_text
+        elif isinstance(self.widget,Label): #Handling Entry for text.set("") option
+            self.text=new_text
+            if self.widget.kivy_widget is not None:
+                self.widget.kivy_widget.text=new_text
         
     def get(self):
         return(self.text)
@@ -138,9 +132,6 @@ class Button():
         self.column_index = column_index
         self.text_input=text_input
         self.function=function
-        #print("Funkce",self.function)
-        #self.b = tkinter.Button(window, text =text_input, command = lambda:function())
-        #self.b.grid(row=row_index,column=column_index)   
 
 def donothing(*_):
     print("ahoj")
