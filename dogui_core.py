@@ -63,7 +63,7 @@ class PictureBox():
         
 
 class GUI:
-    def __init__(self,title="GUI",size=[600,400]):
+    def __init__(self,title="GUI",size=[600,400],**kwargs):
         self.window = tkinter.Tk()
         self.window.title(title)
         self.window.minsize(width=size[0], height=size[1])
@@ -99,8 +99,8 @@ class GUI:
 def do_nothing():
     pass
 
-def do_nothing_window():
-   filewin = tkinter.Toplevel(self.window)
-   button = tkinter.Button(filewin, text="Do nothing button")
-   button.grid(row=1,column=1)
+#def do_nothing_window():
+#    filewin = tkinter.Toplevel(self.window)
+#    button = tkinter.Button(filewin, text="Do nothing button")
+#    button.grid(row=1,column=1)
     
