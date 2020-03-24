@@ -6,6 +6,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button as Btn
 from kivy.uix.image import Image
 from kivy.core.window import Window
+from kivy.uix.screenmanager import ScreenManager, Screen
 
 
 class GUI(App):
@@ -21,26 +22,37 @@ class GUI(App):
         self.widths=[1]*self.no_cols #list of relative widths of columns
         
     def build(self):
-        self.page=Page(self,self.no_rows,self.no_cols)
+        #####
+        self.screen_manager = ScreenManager()
+        
+        self.page = Page(self)
+        screen = Screen(name="Page")
+        screen.add_widget(self.page)
+        self.screen_manager.add_widget(screen)
+        #####
+        
+        
+        
+        #self.page=Page(self)
         Window.size = tuple(self.size)
-        return(self.page)
+        return(self.screen_manager)
     
     def build_gui(self):    
         self.run()
         
     
 class Page(GridLayout):
-    def __init__(self,app,rows,cols,**kwargs):
+    def __init__(self,app,**kwargs):
         self.clear_widgets()
-        self.cols=cols
-        self.rows=rows
+        self.cols=app.no_cols
+        self.rows=app.no_rows
         self.buttons=[]
         print(self.cols)
         print(self.rows)
         print(app.layout_list)
         super().__init__(**kwargs)
-        for i in range(1,rows+1):
-            for j in range(1,cols+1):
+        for i in range(1,self.rows+1):
+            for j in range(1,self.cols+1):
                 chosen_item=None
                 for item in app.layout_list:
                     if item.row_index==i and item.column_index==j:
@@ -56,13 +68,11 @@ class Page(GridLayout):
                         chosen_item.kivy_widget=kivy_widget
                         self.add_widget(kivy_widget)
                     if isinstance(chosen_item,Button):
-                        btn=Btn(text=chosen_item.text_input,width=app.widths[j-1]/sum(app.widths)*Window.size[0],height=app.heights[i-1]/sum(app.heights)*Window.size[1],size_hint_x=None,size_hint_y=None)
-                        
+                        btn=Btn(text=chosen_item.text_input,width=app.widths[j-1]/sum(app.widths)*Window.size[0],height=app.heights[i-1]/sum(app.heights)*Window.size[1],size_hint_x=None,size_hint_y=None)                        
                         chosen_item.btn=btn
                         self.buttons.append(chosen_item)
                         index=self.buttons.index(chosen_item)
                         chosen_item.btn.bind(on_press=self.click_button)
-                        
                         self.add_widget(btn)
                     if isinstance(chosen_item,PictureBox):
                         chosen_item.kivy_image=Image(source=chosen_item.image_path,width=app.widths[j-1]/sum(app.widths)*Window.size[0],height=app.heights[i-1]/sum(app.heights)*Window.size[1],size_hint_x=None,size_hint_y=None)
@@ -75,6 +85,11 @@ class Page(GridLayout):
         index=button_widgets.index(instance)
         button=self.buttons[index]
         button.function()
+
+class NextPage():
+    pass
+
+
 
 class Label:
     def __init__(self,window,text_input,row_index,column_index,width=10):
@@ -119,7 +134,6 @@ class PictureBox:
         self.kivy_image=None
         
     def load_picture(self,image_path=None):
-        #TODO: reload the given image
         print(self.kivy_image)
         if self.kivy_image is not None:
             self.kivy_image.source = './image.png'
