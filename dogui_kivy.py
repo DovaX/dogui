@@ -7,7 +7,7 @@ from kivy.uix.button import Button as Btn
 from kivy.uix.image import Image
 from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
-
+from kivy.uix.carousel import Carousel
 
 class GUI(App):
     def __init__(self,title="GUI",size=[800,400],rows=5,cols=5):
@@ -21,18 +21,44 @@ class GUI(App):
         self.heights=[1]*self.no_rows #list of relative heights of rows
         self.widths=[1]*self.no_cols #list of relative widths of columns
         
+    def custom_screens(self):
+        pass #not implemented - free to modify
+       
+    def prepare_screens(self,is_one_screen=True):
+        self.page = Page(self)
+        screen1 = Screen(name="Page")
+        screen1.add_widget(self.page)
+        if is_one_screen:
+            self.screen_manager.add_widget(screen1)
+        else:
+            print("Implement custom solution")
+            self.custom_screens()
+        #####
+        #gui2=GUI()
+        
+        #self.page = Page(self)
+        #screen2 = Screen(name="Page2")
+        #screen2.add_widget(self.page)
+        #self.screen_manager.add_widget(screen2)
+        
+
+        #carousel = Carousel(direction='right', id='carousel')
+        #carousel.add_widget(screen1)
+        #carousel.add_widget(screen2)
+        
+        #screen3 = Screen(name="Page3")
+        #screen3.add_widget(carousel)
+
+        #self.screen_manager.add_widget(screen1) 
+
+        
+        
     def build(self):
         #####
         self.screen_manager = ScreenManager()
+        self.prepare_screens()
         
-        self.page = Page(self)
-        screen = Screen(name="Page")
-        screen.add_widget(self.page)
-        self.screen_manager.add_widget(screen)
-        #####
-        
-        
-        
+    
         #self.page=Page(self)
         Window.size = tuple(self.size)
         return(self.screen_manager)
@@ -86,9 +112,7 @@ class Page(GridLayout):
         button=self.buttons[index]
         button.function()
 
-class NextPage():
-    pass
-
+        
 
 
 class Label:
