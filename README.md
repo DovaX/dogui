@@ -27,7 +27,7 @@ button1=dg.Button(gui1.window,"Submit",click_button,2,1)
 
 gui1.build_gui()
 ```
-![obrazek](https://user-images.githubusercontent.com/29150831/127937395-d5120570-233f-46bb-b0df-2ede28884aff.png)
+![obrazek](https://user-images.githubusercontent.com/29150831/127937520-72952f1e-c300-4047-bfdf-032d85e07e1f.png)
 
 Widgets:
 Label
