@@ -15,8 +15,7 @@ class Button():
 
 class Label():
     def __init__(self, window,text_input,row_index,column_index,width=None):
-        self.text=tkinter.StringVar()
-        self.text.set(text_input)
+        self.text=tkinter.StringVar(window,text_input)
         if width is None:
             self.label=tkinter.Label(window, textvariable=self.text,justify=tkinter.LEFT)
         else:
@@ -26,8 +25,7 @@ class Label():
 
 class Entry():
     def __init__(self, window,row_index,column_index,text_input="",width=10):
-        self.text=tkinter.StringVar()
-        self.text.set(text_input)
+        self.text=tkinter.StringVar(window,text_input)
         self.entry=tkinter.Entry(window,textvariable=self.text,width=width)
         self.entry.grid(row=row_index,column=column_index)
 
